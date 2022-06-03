@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import { StoreTodoDTO } from './dto/store.dto';
 import { UpdateTodoDTO } from './dto/update.dto';
 import { Todo } from './todo.entity';

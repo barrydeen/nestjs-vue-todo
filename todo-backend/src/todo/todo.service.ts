@@ -1,6 +1,6 @@
 import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { StoreTodoDTO } from './dto/store.dto';
 import { UpdateTodoDTO } from './dto/update.dto';
 import { Todo } from './todo.entity';
@@ -25,13 +25,12 @@ export class TodoService {
     }
 
     async update(id: number, updateTodoDTO: UpdateTodoDTO): Promise<Todo> {
-        try {
-            await this.todoRepository.update(id, updateTodoDTO);
-            return this.todoRepository.findOne(id);
-        } catch {
+        const updatedTodo = await this.todoRepository.update(id,updateTodoDTO);
+        if (!updatedTodo.affected) {
             throw new NotFoundException;
         }
-       
+
+        return this.todoRepository.findOne(id);
     }
 
     async destroy(id: number): Promise<DeleteResult> {
